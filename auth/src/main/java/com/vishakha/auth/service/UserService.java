@@ -9,8 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -135,6 +139,18 @@ public class UserService {
         }
         javaMailSender.send(mimeMessage);
     }
+    public ResponseEntity<Map<String,Object>> validateFPToken(Map<String,Object> body)
+    {
+        String token = (String) body.get("token");
+        Map<String,Object> res = userRepository.validateFPToken(token);
+        Integer isValid = (Integer) res.get("validYN");
+        if(isValid == 1)
+        {
+            return ResponseEntity.ok(Map.of("status","successful"));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Map.of("status","Unsuccessful"));
+    }
+
 
 
 }

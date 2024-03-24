@@ -34,4 +34,7 @@ public class UserRepository {
     public Map<String , Object > generateToken(String email) {
         return jdbcTemplate.queryForMap("EXEC sp_generate_token ?  ", email);
     }
+    public Map<String,Object> validateFPToken( String token) {
+        return jdbcTemplate.queryForMap("EXEC sp_validate_fp_token ? ",  token);
+    }
 }
