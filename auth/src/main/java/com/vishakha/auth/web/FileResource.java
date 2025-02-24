@@ -19,10 +19,10 @@ public class FileResource {
 
     @PostMapping("/upload")
 //    form data ko accept krne ke liye annotation hai request param
-    public void uploadFile(@RequestParam MultipartFile file , @RequestParam String name)
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam MultipartFile file , @RequestParam String name)
     {
         System.out.println("fileContent = " + file);
-        fileService.uploadFile(file,name);
+        return fileService.uploadFile(file,name);
     }
     @GetMapping("/fetch-files")
     public List<Map<String,Object>> fetchFiles()
